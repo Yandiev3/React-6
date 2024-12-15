@@ -1,7 +1,20 @@
 import './main.scss'
-import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { data, Link } from 'react-router-dom'
+import React, { useState } from 'react'
 const Main = () => {
+    const [categories, setCategories] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
+
+    React.useEffect(() => {
+        fetch("http://localhost:3333/categories/all")
+            .then(response => response.json())
+            .then(data => setCategories(data),
+                    setIsLoading(false));
+                        
+    }, [])
+
+    const limitedCategories = categories.slice(0, 4);
+
 
     const [user, setUser] = useState(
         {
@@ -31,25 +44,21 @@ const Main = () => {
                 </div>
 
                 <div className="categories">
-                    <div className="category">
-                        <img src="./img/img (1).png" alt="#" />
-                        <p>Fertilizer</p>
-                    </div>
-                    <div className="category">
-                        <img src="./img/img (2).png" alt="#" />
-                        <p>Protective products and septic tanks</p>
-                    </div>
-                    <div className="category">
-                        <img src="./img/img (3).png" alt="#" />
-                        <p>Planting material</p>
-                    </div>
-                    <div className="category">
-                        <img src="./img/img (4).png" alt="#" />
-                        <p>Tools and equipment</p>
-                    </div>
+                    {isLoading ? (
+                        <h1>Loading...</h1>
+                    ) : (
+                        <>
+                            {limitedCategories.map(category => (
+                                <div className="category" key={category.id}>
+                                    <img src={category.image} alt={category.title} />
+                                    <p>{category.title}</p>
+                                </div>
+                            ))}
+                        </>
+                    )}
                 </div>
-
             </div>
+
 
             <div className="selectionInput">
                 <div className="titleInput">

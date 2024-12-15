@@ -5,6 +5,9 @@ import Categories from "./pages/categories/Categories";
 import Error from "./pages/error/Error";
 
 function App() {
+
+  
+
   return (
     <div className="App">
         <Routes>
