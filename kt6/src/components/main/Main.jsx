@@ -1,11 +1,11 @@
 import './main.scss'
 import { data, Link } from 'react-router-dom'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 const Main = () => {
     const [categories, setCategories] = useState([])
     const [isLoading, setIsLoading] = useState(true);
 
-    React.useEffect(() => {
+    useEffect(() => {
         fetch("http://localhost:3333/categories/all")
             .then(response => response.json())
             .then(data => setCategories(data),
@@ -16,12 +16,41 @@ const Main = () => {
     const limitedCategories = categories.slice(0, 4);
 
 
+    const [item, setItem] = useState([])
+
+    useEffect(() => {
+        fetch("http://localhost:3333/products/all")
+            .then(response => response.json())
+            .then(item => setItem(item),
+                    setIsLoading(false));
+                        
+    }, [])
+
+    const limitedItem = item.slice(0, 4)
+
     const [user, setUser] = useState(
         {
             name: '',
             email: '',
             number: '',
         })
+    
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUser({ ...user, [name]: value });    
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        alert(`Name: ${user.name}, Email: ${user.email}, Number: ${user.number}`)
+    
+        setUser({
+            name: '',
+            email: '',
+            number: '',
+          });
+    }
+
 
     return (
         <main>
@@ -50,8 +79,10 @@ const Main = () => {
                         <>
                             {limitedCategories.map(category => (
                                 <div className="category" key={category.id}>
+                                    <Link to={`/categories/${category.id}`}>
                                     <img src={category.image} alt={category.title} />
                                     <p>{category.title}</p>
+                                    </Link>
                                 </div>
                             ))}
                         </>
@@ -71,22 +102,28 @@ const Main = () => {
                     <div className="feedbackInput">
                         <input
                         type="text"
+                        name='name'
                         value={user.name}
-                        placeholder="Name" Name/>  
+                        placeholder="Name"
+                        onChange={handleChange}/>  
 
                         
                         <input
-                        type="tel"
+                        type="number"
+                        name='number'
                         value={user.number}
-                        placeholder="Phone number"/>
+                        placeholder="Phone number"
+                        onChange={handleChange}/>
 
                         <input
                         type="email"
+                        name='email'
                         value={user.email}
-                        placeholder="Email"/>
+                        placeholder="Email"
+                        onChange={handleChange}/>
 
                         <div className="btnInput">
-                            <button> <b>Get a discount</b></button>
+                            <button onClick={handleSubmit}> <b>Get a discount</b></button>
                         </div>
                     </div>
                 </div>
@@ -99,62 +136,51 @@ const Main = () => {
                         <div className="chr2"><hr /></div>
                         <div className="cp"><Link to={"/"}><p>All sales</p></Link></div>
                     </div>
-
-                    <div className="saleProducts">
-                        <div className="saleProduct">
-
-                        </div>
-                    </div>
                 </div>
 
                 <div className="saleItem">
                     <div className="containerSale">
-                        <div className="item">
-                            <img src=""/>
-                                <div className="titleItem">
-                                    <p></p>
-                                </div>
-                                <div className="priceItem">
-                                    <h1></h1>
-                                    <h2></h2>
-                                </div>
-                        </div>
-                        <div className="item">
-                            <img src=""/>
-                                <div className="titleItem">
-                                    <p></p>
-                                </div>
-                                <div className="priceItem">
-                                    <h1></h1>
-                                    <h2></h2>
-                                </div>
-                        </div>
-                        <div className="item">
-                            <img src=""/>
-                                <div className="titleItem">
-                                    <p></p>
-                                </div>
-                                <div className="priceItem">
-                                    <h1></h1>
-                                    <h2></h2>
-                                </div>
-                        </div>
-                        <div className="item">
-                            <img src=""/>
-                                <div className="titleItem">
-                                    <p></p>
-                                </div>
-                                <div className="priceItem">
-                                    <h1></h1>
-                                    <h2></h2>
-                                </div>
-                        </div>
-                    
-                    </div>
-                </div>    
-            </div>
-        </main>
-    )
-}
 
+                            {isLoading ? (
+                        <h1>Loading...</h1>
+                    ) : (
+                        <>
+                            {limitedItem.map(item => {
+                                const discountPercentage = item.discont_price
+                                    ? Math.round(((item.price - item.discont_price) / item.price) * 100)
+                                    : null;
+
+                                return (
+                                    <div className="item" key={item.id}>
+                                        <img src={item.image} alt={item.title} />
+                                        <div className="titleItem">
+                                            <p>{item.title}</p>
+                                        </div>
+                                        <div className="priceItem">
+                                            {item.discont_price ? (
+                                                <>
+                                                    <h1>${item.discont_price}</h1>
+                                                    <h2><s>${item.price}</s></h2>
+                                                </>
+                                            ) : (
+                                                <h1>${item.price}</h1>
+                                            )}
+                                        </div>
+                                        {/* Блок со скидкой в процентах */}
+                                        {discountPercentage && (
+                                            <div className="discountBlock">
+                                                <span>-{discountPercentage}%</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </>
+                    )}
+                </div>
+            </div>    
+        </div>
+</main>
+)
+}
 export default Main

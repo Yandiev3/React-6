@@ -1,0 +1,110 @@
+.containerCard{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+.saleTitle{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    width: 1360px;
+    margin-top: 80px;
+
+    h1{
+        color: rgba(40, 40, 40, 1);
+        font-size: 64px;
+        font-weight: 700;
+        line-height: 70.4px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+    }
+    p{
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 20px;
+        text-align: center;
+        color: rgba(139, 139, 139, 1);
+    }
+    hr{
+        width: 1093px;
+        background-color:rgba(139, 139, 139, 1);
+    }
+}
+
+    .salehr{
+        display: flex;
+        align-items: center;
+        padding: 18px 0px 8px 26px
+    }
+
+    .containerSaleCard{
+        display: flex;
+        gap: 32px;
+        justify-content: center;
+        margin: auto;
+        width: 1360px;
+    }
+    
+    .itemCard{
+        width: 316px;
+        height: 422px;
+        border-radius: 10px;
+        border: 1px solid rgba(139, 139, 139, 1);
+        overflow: hidden;
+        position: relative;
+        img{
+            width: 100%;
+            height: 284px;
+            border-radius: 10px 10px 0px 0px;
+        }
+
+        p{
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 20px;
+            text-align: left; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
+            padding: 16px 32px
+        }
+
+        h1{
+            font-size: 40px;
+            font-weight: 600;
+            line-height: 44px;
+            text-align: left;
+            text-underline-position: from-font;
+            text-decoration-skip-ink: none;
+            padding: 0px 16px 16px 32px;
+        }
+        
+        h2{
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 26px;
+            text-align: left;
+            text-decoration-line: line-through;
+            text-underline-position: from-font;
+            text-decoration-skip-ink: none;
+            color: rgba(139, 139, 139, 1);
+            padding: 16px 73px 2px 0px;
+        }
+        span{
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 26px;
+            text-align: left;
+            text-underline-position: from-font;
+            text-decoration-skip-ink: none;
+
+            width:  67px;
+            height: 34px;
+            padding: 4px 8px 4px 8px;
+            gap: 10px;
+            border-radius: 5px;
+            opacity: 0px;
+
+        }
+    }
