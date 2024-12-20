@@ -58,7 +58,7 @@ const Main = () => {
                 <div className="containerST">
                     <div className="stTitle"><h1>Amazing Discounts <br /> on  Garden Products!</h1></div>
                     <div className="stbtn">
-                        <button>Check out</button>    
+                        <Link to={'/categories/3'}><button>Check out</button></Link>    
                     </div>
                 </div>
             </div> 

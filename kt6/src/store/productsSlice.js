@@ -13,7 +13,9 @@ const productsSlice = createSlice({
     name: 'products',
     initialState: {
         categories: {}, 
-        status: 'idle', 
+        status: 'idle',
+        price: '',
+        discount_price: '', 
     },
     reducers: {},
     extraReducers: (builder) => {
