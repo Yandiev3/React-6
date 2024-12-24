@@ -1,0 +1,74 @@
+.containerTovar{
+    width: 1360px;
+    height: 576px;
+    margin: auto;
+    margin-top: 80px;
+    display: flex;
+
+    h3{
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 44px;
+    letter-spacing: 0.03em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    }
+}
+.imageTovar{
+    width: 780px;
+    height: 572px;    
+    img{
+        width: 780px;
+        height: 572px;  
+    }
+}
+.overviewTovar{
+    width: 548px;
+    height: 574px;
+    margin-left: 32px;
+    margin-top: 32px;
+}
+.priceTovar{
+    margin-top: 32px;
+}
+.oldPrice{
+    color: rgba(139, 139, 139, 1);
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 52px;
+    text-align: left;
+    text-decoration-line: line-through;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+.newPrice{
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 70.4px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    margin-right: 32px;
+}
+.descriptionTovar{
+    h4{
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 26px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    }
+    p{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20.8px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+
+    }
+}

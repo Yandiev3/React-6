@@ -12,6 +12,7 @@ export const fetchProducts = createAsyncThunk(
 const productsSlice = createSlice({
     name: 'products',
     initialState: {
+        items: [],
         categories: {}, 
         status: 'idle',
         price: '',

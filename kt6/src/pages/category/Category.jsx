@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../store/productsSlice';
+import { addToCart } from '../../store/cartSlice'; // Импортируем действие для добавления в корзину
 import { Link } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
@@ -119,8 +120,13 @@ const CategoryPage = () => {
 
                 <div className="containerCard">
                     {sortedProducts.map((product) => (
-                    <Link to={`/${product.id}`}><div className="itemCard" key={product.id}>
-                            <img src={product.image} alt={product.title} />
+                        <div className="itemCard" key={product.id}>
+                            <Link to={`/item/${product.id}`}>
+                                <img src={product.image} alt={product.title} />
+                            </Link>
+                            <div className="itemCard__overflow">
+                                <button onClick={() => dispatch(addToCart(product))}>Add to cart</button>
+                            </div>
                             <div className="titleItemCard">
                                 <p>{product.title}</p>
                             </div>
@@ -142,7 +148,6 @@ const CategoryPage = () => {
                                 </div>
                             )}
                         </div>
-                    </Link>
                     ))}
                 </div>
             </main>
