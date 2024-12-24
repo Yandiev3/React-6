@@ -8,6 +8,7 @@ import Products from './components/products/Products';
 import CategoryPage from './pages/category/Category';
 import Allproducts from './pages/allProducts/Allproducts';
 import AllSales from './pages/allSales/AllSales';
+import Item from './components/item/Item';
 function App() {
 
   
@@ -21,6 +22,7 @@ function App() {
         <Route path="/Allproducts" element={<Allproducts />} />
         <Route path="/categories/:categoryId" element={<CategoryPage />} />
         <Route path="/AllSales" element={<AllSales />} />
+        <Route path="product.id" element={< Item/>} />
       </Routes>
     </div>
   );

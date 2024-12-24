@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../store/productsSlice';
+import { Link } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
 import './Category.scss';
@@ -118,7 +119,7 @@ const CategoryPage = () => {
 
                 <div className="containerCard">
                     {sortedProducts.map((product) => (
-                        <div className="itemCard" key={product.id}>
+                    <Link to={`/${product.id}`}><div className="itemCard" key={product.id}>
                             <img src={product.image} alt={product.title} />
                             <div className="titleItemCard">
                                 <p>{product.title}</p>
@@ -141,6 +142,7 @@ const CategoryPage = () => {
                                 </div>
                             )}
                         </div>
+                    </Link>
                     ))}
                 </div>
             </main>

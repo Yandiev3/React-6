@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Link } from 'react-router-dom';
 const Sale = ({ products, categories }) => {
     // Состояния для фильтров
     const [minPrice, setMinPrice] = useState('');
@@ -104,7 +104,7 @@ const Sale = ({ products, categories }) => {
             <div className="containerCard">
                 {sortedProducts.length > 0 ? (
                     sortedProducts.map((product) => (
-                        <div className="itemCard" key={product.id}>
+ <Link to={`/${product.id}`}>    <div className="itemCard" key={product.id}>
                             <img src={product.image} alt={product.title} />
                             <div className="titleItemCard">
                                 <p>{product.title}</p>
@@ -119,6 +119,7 @@ const Sale = ({ products, categories }) => {
                                 </span>
                             </div>
                         </div>
+                    </Link>
                     ))
                 ) : (
                     <p>Лафа закончилась</p>

@@ -134,7 +134,7 @@ const Main = () => {
                     <h1>Sale</h1>
                     <div className="salehr">
                         <div className="chr2"><hr /></div>
-                        <div className="cp"><Link to={"/"}><p>All sales</p></Link></div>
+                        <div className="cp"><Link to={"/AllSales"}><p>All sales</p></Link></div>
                     </div>
                 </div>
 

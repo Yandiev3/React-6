@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { fetchProducts } from '../../store/productsSlice';
 import './products.scss';
 
@@ -16,7 +16,8 @@ const Products = () => {
 
     useEffect(() => {
         dispatch(fetchProducts());
-    }, [dispatch]);
+    }, []);
+    //Срабатывае при изменении состояния диспетч
 
     if (status === 'loading') {
         return <h1>Loading...</h1>;
@@ -134,8 +135,12 @@ const Products = () => {
             
             <div className="containerCard">
                 {sortedProducts.map((product) => (
-                    <div className="itemCard" key={product.id}>
+                    
+                <Link to={`/${product.id}`}> <div className="itemCard" key={product.id}>
                         <img src={product.image} alt={product.title} />
+                        <div className="itemCard__overflow">
+                            <button>Add to cart</button>
+                        </div>
                         <div className="titleItemCard">
                             <p>{product.title}</p>
                         </div>
@@ -157,6 +162,7 @@ const Products = () => {
                             </div>
                         )}
                     </div>
+                </Link>
                 ))}
             </div>
         </main>
