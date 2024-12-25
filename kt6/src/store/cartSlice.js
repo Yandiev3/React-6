@@ -14,7 +14,6 @@ const loadCartFromLocalStorage = () => {
   }
 };
 
-// Функция для сохранения данных в localStorage
 const saveCartToLocalStorage = (cart) => {
   try {
     const serializedCart = JSON.stringify(cart);
@@ -40,20 +39,17 @@ const cartSlice = createSlice({
         state.items.push({ ...product, quantity: 1 });
       }
 
-      // Сохраняем обновленную корзину в localStorage
       saveCartToLocalStorage(state.items);
     },
     removeFromCart: (state, action) => {
       const productId = action.payload;
       state.items = state.items.filter((item) => item.id !== productId);
 
-      // Сохраняем обновленную корзину в localStorage
       saveCartToLocalStorage(state.items);
     },
     clearCart: (state) => {
       state.items = [];
 
-      // Очищаем корзину в localStorage
       saveCartToLocalStorage(state.items);
     },
   },

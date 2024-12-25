@@ -9,6 +9,18 @@ const Item = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [count, setCount] = useState(null)
+
+  
+  function clickAdd() {
+		setCount(count + 1);
+	}
+
+  function clickDel() {
+    if (count > 0) {
+      setCount(count - 1);
+    }
+	}
 
   // Получаем все продукты из Redux
   const products = useSelector((state) => state.products.categories);
@@ -52,6 +64,9 @@ const Item = () => {
     return <div>Product not found</div>;
   }
 
+
+
+
   return (
     <div>
         <Header />
@@ -72,7 +87,13 @@ const Item = () => {
                 <span className="newPrice">${product.price}</span>
                 )}
             </div>
-            
+                
+                <div className="countTovar">
+                <button onClick={clickDel}>-</button>  
+                <div className="count"><p>{count || "0"}</p></div>
+                <button onClick={clickAdd}>+</button>
+                </div>
+
             <div className="descriptionTovar">
                 <h4>Description</h4>
             <p>{product.description}</p>

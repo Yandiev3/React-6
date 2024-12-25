@@ -51,6 +51,32 @@
     text-decoration-skip-ink: none;
     margin-right: 32px;
 }
+
+.countTovar{
+    display: flex;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    width: 200px;
+    button{
+        flex: 1;
+        border: 1px solid #DDDDDD;
+        border-radius: 5px;
+        color: #8B8B8B;
+        background: none;
+    }
+}
+
+.count{
+        flex: 2;
+        padding: 20px 0;
+        gap: 0px;
+        opacity: 0px;
+        border-radius: 5px;
+        color: #8B8B8B;
+        background: none;
+        border: 1px solid #DDDDDD;
+}
+
 .descriptionTovar{
     h4{
     font-size: 20px;
