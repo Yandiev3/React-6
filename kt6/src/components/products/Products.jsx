@@ -27,7 +27,6 @@ const Products = () => {
         return <h1>Error: {error}</h1>;
     }
 
-
     const filteredProducts = selectedCategory
         ? categories[selectedCategory] || []
         : categoryId

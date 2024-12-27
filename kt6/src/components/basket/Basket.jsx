@@ -1,50 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; // Добавляем useState для управления модальным окном
 import { useSelector, useDispatch } from 'react-redux';
-import { removeFromCart, clearCart } from '../../store/cartSlice';
+import { removeFromCart, clearCart, updateQuantity } from '../../store/cartSlice';
 import './basket.scss';
 
 const Basket = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
-  const [quantities, setQuantities] = useState({}); // Количество для каждого товара
-  const [isOrderPlaced, setIsOrderPlaced] = useState(false); // Состояние для кнопки "Order"
-  const [isModalOpen, setIsModalOpen] = useState(false); // Состояние для модального окна
+  const [isModalOpen, setIsModalOpen] = useState(false); // Состояние для управления модальным окном
+
+  // Общая стоимость с учетом количества товаров
+  const totalPrice = cartItems.reduce((total, item) => {
+    return total + (item.discont_price || item.price) * item.quantity;
+  }, 0);
+
+  // Общее количество товаров в корзине
+  const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   // Функция для увеличения количества товара
   const handleIncrement = (itemId) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [itemId]: (prev[itemId] || 1) + 1,
-    }));
+    const item = cartItems.find((item) => item.id === itemId);
+    if (item) {
+      dispatch(updateQuantity({ id: itemId, quantity: item.quantity + 1 }));
+    }
   };
 
   // Функция для уменьшения количества товара
   const handleDecrement = (itemId) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [itemId]: Math.max(1, (prev[itemId] || 1) - 1),
-    }));
+    const item = cartItems.find((item) => item.id === itemId);
+    if (item && item.quantity > 1) {
+      dispatch(updateQuantity({ id: itemId, quantity: item.quantity - 1 }));
+    }
   };
 
-  // Общая стоимость с учетом количества товаров
-  const totalPrice = cartItems.reduce((total, item) => {
-    const quantity = quantities[item.id] || 1;
-    return total + (item.discont_price || item.price) * quantity;
-  }, 0);
-
-  // Общее количество товаров в корзине
-  const totalItems = cartItems.reduce((total, item) => {
-    const quantity = quantities[item.id] || 1;
-    return total + quantity;
-  }, 0);
-
-  // Обработчик нажатия на кнопку "Order"
+  // Функция для открытия модального окна
   const handleOrder = () => {
     setIsModalOpen(true);
-    setIsOrderPlaced(true);
   };
 
-  // Закрытие модального окна
+  // Функция для закрытия модального окна
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -78,7 +71,7 @@ const Basket = () => {
                     <span className="itemName">
                       <button onClick={() => handleDecrement(item.id)}>-</button>
                       <div className="count">
-                        <p>{quantities[item.id] || 1}</p>
+                        <p>{item.quantity}</p>
                       </div>
                       <button onClick={() => handleIncrement(item.id)}>+</button>
                     </span>
@@ -109,7 +102,7 @@ const Basket = () => {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  handleOrder();
+                  handleOrder(); // Открываем модальное окно при отправке формы
                 }}
               >
                 <input type="text" placeholder="Name" required />
@@ -117,9 +110,9 @@ const Basket = () => {
                 <input type="email" placeholder="Email" required />
                 <button
                   type="submit"
-                  disabled={isOrderPlaced || cartItems.length === 0}
+                  disabled={cartItems.length === 0}
                 >
-                  {isOrderPlaced ? 'The Order Placed' : 'Order'}
+                  Order
                 </button>
               </form>
             </div>
@@ -131,8 +124,9 @@ const Basket = () => {
       {isModalOpen && (
         <div className="modalOverlay">
           <div className="modalContent">
-            <h2>Order Placed Successfully!</h2>
-            <p>Thank you for your purchase.</p>
+            <h2>Congratulations! </h2>
+            <p>Your order has been successfully placed on the website. <br /> <br />
+            A manager will contact you shortly to confirm your order.</p>
             <button onClick={closeModal}>Close</button>
           </div>
         </div>

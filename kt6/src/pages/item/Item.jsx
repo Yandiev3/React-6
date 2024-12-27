@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "../../store/cartSlice"; // Импортируем действие для добавления в корзину
+import { addToCart } from "../../store/cartSlice";
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import "./item.scss";
@@ -13,40 +13,36 @@ const Item = () => {
   const [error, setError] = useState(null);
   const [count, setCount] = useState(1); // Начальное количество товара
   const dispatch = useDispatch();
-
-  // Получаем все продукты из Redux
   const products = useSelector((state) => state.products.categories);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        // Загружаем данные продукта по ID
         const response = await fetch(`http://localhost:3333/products/${productId}`);
         if (!response.ok) {
           throw new Error("Product not found");
         }
         const data = await response.json();
-        setProduct(data); // Сохраняем продукт в локальное состояние
+        setProduct(data);
       } catch (err) {
-        setError(err.message); // Обрабатываем ошибку
+        setError(err.message);
       } finally {
-        setLoading(false); // Завершаем загрузку
+        setLoading(false);
       }
     };
 
-    // Проверяем, есть ли продукт в Redux
     const productFromRedux = Object.values(products).flat().find((item) => item.id === parseInt(productId));
     if (productFromRedux) {
-      setProduct(productFromRedux); // Если продукт есть в Redux, используем его
+      setProduct(productFromRedux);
       setLoading(false);
     } else {
-      fetchProduct(); // Иначе загружаем продукт с сервера
+      fetchProduct();
     }
   }, [productId, products]);
 
   const handleAddToCart = () => {
     if (product) {
-      dispatch(addToCart({ product, quantity: count })); // Передаем объект с полями product и quantity
+      dispatch(addToCart({ product, quantity: count })); // Передаем количество товаров
     }
   };
 

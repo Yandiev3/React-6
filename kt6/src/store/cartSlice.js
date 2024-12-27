@@ -49,8 +49,16 @@ const cartSlice = createSlice({
       state.items = [];
       saveCartToLocalStorage(state.items);
     },
+    updateQuantity: (state, action) => {
+      const { id, quantity } = action.payload;
+      const item = state.items.find((item) => item.id === id);
+      if (item) {
+        item.quantity = quantity; // Обновляем количество товара
+        saveCartToLocalStorage(state.items);
+      }
+    },
   },
 });
 
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart, updateQuantity } = cartSlice.actions;
 export default cartSlice.reducer;
