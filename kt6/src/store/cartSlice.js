@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// Функция для загрузки данных из localStorage
 const loadCartFromLocalStorage = () => {
   try {
     const serializedCart = localStorage.getItem('cart');
@@ -26,17 +25,17 @@ const saveCartToLocalStorage = (cart) => {
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    items: loadCartFromLocalStorage(), // Загружаем данные из localStorage
+    items: loadCartFromLocalStorage(),
   },
   reducers: {
     addToCart: (state, action) => {
-      const product = action.payload;
+      const { product, quantity } = action.payload;
       const existingItem = state.items.find((item) => item.id === product.id);
 
       if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += quantity; // Увеличиваем количество, если товар уже есть в корзине
       } else {
-        state.items.push({ ...product, quantity: 1 });
+        state.items.push({ ...product, quantity }); // Добавляем товар с указанным количеством
       }
 
       saveCartToLocalStorage(state.items);
@@ -44,12 +43,10 @@ const cartSlice = createSlice({
     removeFromCart: (state, action) => {
       const productId = action.payload;
       state.items = state.items.filter((item) => item.id !== productId);
-
       saveCartToLocalStorage(state.items);
     },
     clearCart: (state) => {
       state.items = [];
-
       saveCartToLocalStorage(state.items);
     },
   },

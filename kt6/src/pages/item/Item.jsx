@@ -1,26 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart } from "../../store/cartSlice"; // Импортируем действие для добавления в корзину
 import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
 import "./item.scss";
+
 const Item = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [count, setCount] = useState(null)
-
-  
-  function clickAdd() {
-		setCount(count + 1);
-	}
-
-  function clickDel() {
-    if (count > 0) {
-      setCount(count - 1);
-    }
-	}
+  const [count, setCount] = useState(1); // Начальное количество товара
+  const dispatch = useDispatch();
 
   // Получаем все продукты из Redux
   const products = useSelector((state) => state.products.categories);
@@ -52,6 +44,12 @@ const Item = () => {
     }
   }, [productId, products]);
 
+  const handleAddToCart = () => {
+    if (product) {
+      dispatch(addToCart({ product, quantity: count })); // Передаем объект с полями product и quantity
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -64,44 +62,44 @@ const Item = () => {
     return <div>Product not found</div>;
   }
 
-
-
-
   return (
     <div>
-        <Header />
-        <main>
+      <Header />
+      <main>
         <div className="containerTovar">
-            <div className="imageTovar">
+          <div className="imageTovar">
             <img src={product.image} alt={product.title} />
-            </div>
-            <div className="overviewTovar">
+          </div>
+          <div className="overviewTovar">
             <h3>{product.title}</h3>
             <div className="priceTovar">
-                {product.discont_price ? (
+              {product.discont_price ? (
                 <>
-                    <span className="newPrice">${product.discont_price}</span>
-                    <span className="oldPrice">${product.price}</span>
+                  <span className="newPrice">${product.discont_price}</span>
+                  <span className="oldPrice">${product.price}</span>
                 </>
-                ) : (
+              ) : (
                 <span className="newPrice">${product.price}</span>
-                )}
+              )}
             </div>
-                
-                <div className="countTovar">
-                <button onClick={clickDel}>-</button>  
-                <div className="count"><p>{count || "0"}</p></div>
-                <button onClick={clickAdd}>+</button>
-                </div>
-
+            <div className="containerCount">
+              <div className="countTovar">
+                <button onClick={() => setCount(Math.max(1, count - 1))}>-</button>
+                <div className="count"><p>{count}</p></div>
+                <button onClick={() => setCount(count + 1)}>+</button>
+              </div>
+              <div className="btnTovar">
+                <button onClick={handleAddToCart}>Add to cart</button>
+              </div>
+            </div>
             <div className="descriptionTovar">
-                <h4>Description</h4>
-            <p>{product.description}</p>
+              <h4>Description</h4>
+              <p>{product.description}</p>
             </div>
-            </div>
+          </div>
         </div>
-        </main>
-    <Footer />
+      </main>
+      <Footer />
     </div>
   );
 };

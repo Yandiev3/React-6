@@ -9,14 +9,23 @@ export const fetchProducts = createAsyncThunk(
     }
 );
 
+export const fetchProductById = createAsyncThunk(
+    'products/fetchProductById',
+    async (productId) => {
+        const response = await fetch(`http://localhost:3333/products/${productId}`);
+        const data = await response.json();
+        return data;
+    }
+);
+
 const productsSlice = createSlice({
     name: 'products',
     initialState: {
         items: [],
-        categories: {}, 
+        categories: {},
+        productDetails: null, // Поле для хранения данных о товаре
         status: 'idle',
-        price: '',
-        discount_price: '', 
+        error: null,
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -36,8 +45,19 @@ const productsSlice = createSlice({
                 }, {});
             })
             .addCase(fetchProducts.rejected, (state, action) => {
-                state.status = 'failed'; 
-                state.error = action.error.message; 
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            .addCase(fetchProductById.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchProductById.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.productDetails = action.payload; // Сохраняем данные о товаре
+            })
+            .addCase(fetchProductById.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
             });
     },
 });

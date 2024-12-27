@@ -29,7 +29,6 @@ const CategoryPage = () => {
         return <h1>Error: {error}</h1>;
     }
 
-    const allCategories = Object.keys(categories);
 
     const categoryTitles = {
         1: 'Annuals',
@@ -125,7 +124,7 @@ const CategoryPage = () => {
                                 <img src={product.image} alt={product.title} />
                             </Link>
                             <div className="itemCard__overflow">
-                                <button onClick={() => dispatch(addToCart(product))}>Add to cart</button>
+                                <button onClick={() => dispatch(addToCart({ product, quantity: 1 }))}>Add to cart</button>
                             </div>
                             <div className="titleItemCard">
                                 <p>{product.title}</p>

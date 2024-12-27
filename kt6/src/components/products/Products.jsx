@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { fetchProducts } from '../../store/productsSlice';
-import { addToCart } from '../../store/cartSlice'; // Импортируем действие для добавления в корзину
+import { addToCart } from '../../store/cartSlice';
 import './products.scss';
 
 const Products = () => {
@@ -17,7 +17,7 @@ const Products = () => {
 
     useEffect(() => {
         dispatch(fetchProducts());
-    }, []);
+    }, [dispatch]);
 
     if (status === 'loading') {
         return <h1>Loading...</h1>;
@@ -27,7 +27,6 @@ const Products = () => {
         return <h1>Error: {error}</h1>;
     }
 
-    const allCategories = Object.keys(categories);
 
     const filteredProducts = selectedCategory
         ? categories[selectedCategory] || []
@@ -134,7 +133,7 @@ const Products = () => {
                             <img src={product.image} alt={product.title} />
                         </Link>
                         <div className="itemCard__overflow">
-                            <button onClick={() => dispatch(addToCart(product))}>Add to cart</button>
+                            <button onClick={() => dispatch(addToCart({ product, quantity: 1 }))}>Add to cart</button>
                         </div>
                         <div className="titleItemCard">
                             <p>{product.title}</p>

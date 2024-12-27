@@ -57,8 +57,8 @@ const AllSales = () => {
         <>
             <Header />
             <main>
-                <div className="allSalesTitle">
-                    <h1>All Sales</h1>
+                <div className="productsTitle">
+                    <h1>Discounted items</h1>
                 </div>
                 <div className="sort">
                     <div className="filterPrice">
@@ -101,7 +101,7 @@ const AllSales = () => {
                                 <img src={product.image} alt={product.title} />
                             </Link>
                             <div className="itemCard__overflow">
-                                <button onClick={() => dispatch(addToCart(product))}>
+                            <button onClick={() => dispatch(addToCart({ product, quantity: 1 }))}>
                                     Add to cart
                                 </button>
                             </div>
